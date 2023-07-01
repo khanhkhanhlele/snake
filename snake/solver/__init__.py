@@ -9,4 +9,5 @@ from snake.solver.hamilton import HamiltonSolver
 from snake.solver.dqn import DQNSolver
 from snake.solver.human import Userplayer
 from snake.solver.BFS import BFS
+from snake.solver.DFS import DFS
 from snake.solver.hamiltonBase import hamiltonBase

@@ -12,7 +12,8 @@ dict_solver = {
     "dqn": "DQNSolver",
     "human": "Userplayer",
     "BFS": "BFS",
-    "hamiltonBase": "hamiltonBase"
+    "hamiltonBase": "hamiltonBase",
+    "DFS": "DFS"
 }
 
 dict_mode = {

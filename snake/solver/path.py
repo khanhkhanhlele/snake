@@ -44,6 +44,9 @@ class PathSolver(BaseSolver):
     def longest_path_to_tail(self):
         return self.path_to(self.snake.tail(), "longest")
 
+    def shortest_path_to_food_dfs(self):
+        return self.path_to(self.map.food, "dfs")
+    
     def path_to(self, des, path_type):
         ori_type = self.map.point(des).type
         self.map.point(des).type = PointType.EMPTY
@@ -51,9 +54,46 @@ class PathSolver(BaseSolver):
             path = self.shortest_path_to(des)
         elif path_type == "longest":
             path = self.longest_path_to(des)
+        elif path_type == "dfs":
+            path = self.shortest_path_dfs(des)
         self.map.point(des).type = ori_type  # Restore origin type
         return path
 
+    def shortest_path_dfs(self,des):
+        self._reset_table()
+
+        head = self.snake.head()
+        self._table[head.x][head.y].dist = 0
+        stack = deque()
+        stack.append(head)
+
+        while stack:
+            cur = stack.pop()
+            if cur == des:
+                return self._build_path(head, des)
+
+            # Arrange the order of traverse to make the path as straight as possible
+            if cur == head:
+                first_direc = self.snake.direc
+            else:
+                first_direc = self._table[cur.x][cur.y].parent.direc_to(cur)
+            adjs = cur.all_adj()
+            random.shuffle(adjs)
+            # for i, pos in enumerate(adjs):
+            #     if first_direc == cur.direc_to(pos):
+            #         adjs[0], adjs[i] = adjs[i], adjs[0]
+            #         break
+
+            # Traverse adjacent positions
+            for pos in adjs:
+                if self._is_valid(pos):
+                    adj_cell = self._table[pos.x][pos.y]
+                    if adj_cell.dist == sys.maxsize:
+                        adj_cell.parent = cur
+                        adj_cell.dist = self._table[cur.x][cur.y].dist + 1
+                        stack.append(pos)
+        return deque()
+        
     def shortest_path_to(self, des):
         """Find the shortest path from the snake's head to the destination.
 
