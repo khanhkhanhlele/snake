@@ -25,3 +25,4 @@ def test_cycle():
         if s.head() == ori_head:
             break
     assert cnt == m.capacity
+test_cycle()

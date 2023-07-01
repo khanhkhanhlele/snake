@@ -10,6 +10,8 @@ dict_solver = {
     "greedy": "GreedySolver",
     "hamilton": "HamiltonSolver",
     "dqn": "DQNSolver",
+    "human": "Userplayer",
+    "BFS": "BFS"
 }
 
 dict_mode = {
@@ -17,6 +19,7 @@ dict_mode = {
     "bcmk": GameMode.BENCHMARK,
     "train_dqn": GameMode.TRAIN_DQN,
     "train_dqn_gui": GameMode.TRAIN_DQN_GUI,
+    
 }
 
 parser = argparse.ArgumentParser(description="Run snake game agent.")

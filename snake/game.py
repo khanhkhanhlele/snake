@@ -6,10 +6,11 @@ import errno
 import os
 import traceback
 from enum import Enum, unique
+import pygame
 
 from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
-from snake.solver import DQNSolver, GreedySolver, HamiltonSolver
+from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS
 
 
 @unique
@@ -84,12 +85,15 @@ class Game:
     def __init__(self, conf):
         self._conf = conf
         self._map = Map(conf.map_rows + 2, conf.map_cols + 2)
+        #self._map.point(Pos(1, 6)).type = PointType.WALL
         self._snake = Snake(self._map, conf.init_direc,
                             conf.init_bodies, conf.init_types)
         self._pause = False
         self._solver = globals()[self._conf.solver_name](self._snake)
         self._episode = 1
         self._init_log_file()
+        if(self._conf.solver_name == "Userplayer"):
+            self._pause = True
 
     @property
     def snake(self):
@@ -111,6 +115,10 @@ class Game:
                 ('<a>', lambda e: self._update_direc(Direc.LEFT)),
                 ('<s>', lambda e: self._update_direc(Direc.DOWN)),
                 ('<d>', lambda e: self._update_direc(Direc.RIGHT)),
+                ('<Up>', lambda e: self._update_direc(Direc.UP)),
+                ('<Left>', lambda e: self._update_direc(Direc.LEFT)),
+                ('<Down>', lambda e: self._update_direc(Direc.DOWN)),
+                ('<Right>', lambda e: self._update_direc(Direc.RIGHT)),
                 ('<r>', lambda e: self._reset()),
                 ('<space>', lambda e: self._toggle_pause())
             ))
@@ -181,7 +189,7 @@ class Game:
             self._reset()
 
         return learn_end
-
+            
     def _game_main_normal(self):
         if not self._map.has_food():
             self._map.create_rand_food()
@@ -190,7 +198,7 @@ class Game:
             return
 
         self._update_direc(self._solver.next_direc())
-
+        
         if self._conf.mode == GameMode.NORMAL and self._snake.direc_next != Direc.NONE:
             self._write_logs()
 
