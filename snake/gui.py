@@ -143,7 +143,8 @@ class GameWindow(tk.Tk):
         self._info_var.set(self._conf.info_str %
                             (status_str,
                              self._game.episode, self._snake.steps,
-                             self._snake.len(), self._map.capacity))
+                             self._snake.len(), self._map.capacity,
+                             self._conf.map_rows,self._conf.map_cols))
 
     def _draw_map_contents(self):
         for i in range(self._map.num_rows - 2):
