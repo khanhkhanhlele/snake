@@ -10,10 +10,19 @@ from enum import Enum, unique
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import matplotlib.colors as mcolors
+import numpy
 
 from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
-from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS
+from snake.solver import (
+    DQNSolver,
+    GreedySolver,
+    HamiltonSolver,
+    Userplayer,
+    BFS,
+    hamiltonBase,
+    DFS,
+)
 
 
 @unique
@@ -148,7 +157,9 @@ class Game:
 
         tot_len, tot_steps = 0, 0
         now = datetime.datetime.now()
-        name = now.strftime(f"bcmk_{self._conf.solver_name}_%d-%m-%y-%H-%M-%S.txt")
+        name = now.strftime(
+            f"bcmk_{self._conf.solver_name}_{self._conf.map_rows}_%d-%m-%y-%H-%M-%S.txt"
+        )
         f = open("logs/benchmarks/" + name, "a")
         for i in range(NUM_EPISODES):
             print("Episode %d - " % self._episode, end="")
@@ -197,14 +208,21 @@ class Game:
             y1_data.append(int(columns[1]))
             y2_data.append(int(columns[2]))
 
+        avg_y1 = numpy.mean(y1_data)
         fig, ax1 = plt.subplots()
-        ax1.plot(x_data, y1_data, color=mcolors.to_rgb("#0958ad"), label="y1")
+        ax1.plot(x_data, y1_data, color=mcolors.to_rgb("#0958ad"), label="Length")
         ax1.set_ylabel("Length", color=mcolors.to_rgb("#0958ad"))
         ax1.tick_params("y", colors=mcolors.to_rgb("#0958ad"))
         ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+        ax1.axhline(
+            y=avg_y1,
+            color=mcolors.to_rgb("#0958ad"),
+            linestyle="--",
+            label="Average Length",
+        )
         ax2 = ax1.twinx()
-        ax2.plot(x_data, y2_data, color=mcolors.to_rgb("#a30707"), label="y2")
+        ax2.plot(x_data, y2_data, color=mcolors.to_rgb("#a30707"), label="Steps")
         ax2.set_ylabel("Steps", color=mcolors.to_rgb("#a30707"))
         ax2.tick_params("y", colors=mcolors.to_rgb("#a30707"))
         ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
@@ -212,10 +230,18 @@ class Game:
         lines, labels = ax1.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
         ax2.legend(lines + lines2, labels + labels2, loc="best")
+        ax2.text(
+            0,
+            1.05,
+            f"Map size: {self._conf.map_rows}x{self._conf.map_rows}",
+            transform=ax1.transAxes,
+            ha="left",
+            va="top",
+        )
         plt.title(f"Using {self._conf.solver_name}")
         plt.xlabel("Number of runs")
         fig.savefig(f"logs/figure/img_{name}.png")
-        plt.show()
+        """plt.show()"""
 
         self._on_exit()
 
