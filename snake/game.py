@@ -16,6 +16,7 @@ from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
 from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS, astar
 from snake.wall import wall1, wall2, wall3
+import os
 
 wall = [wall1, wall2, wall3]
 @unique
@@ -163,7 +164,10 @@ class Game:
         name = now.strftime(
             f"bcmk_{self._conf.solver_name}_{self._conf.map_rows}_%d-%m-%y-%H-%M-%S.txt"
         )
-        f = open("logs/benchmarks/" + name, "a")
+        # file_name = r'logs/benchmarks/' + name
+        # print(file_name)
+        # os.makedirs(file_name, exist_ok=True)
+        
         for i in range(NUM_EPISODES):
             print("Episode %d - " % self._episode, end="")
             while True:
@@ -187,64 +191,66 @@ class Game:
                     )
                     self._write_logs()  # Write the last step
                     break
-            f.write(f"{i},{self._snake.len()},{self._snake.steps}\n")
+            # with open(file_name, 'w', encoding='utf-8') as f:
+            #     f.write(f"{i},{self._snake.len()},{self._snake.steps}\n")
+            # f.close()
+                
             tot_len += self._snake.len()
             tot_steps += self._snake.steps
 
             self._reset()
-        f.close()
         avg_len = tot_len / NUM_EPISODES
         avg_steps = tot_steps / NUM_EPISODES
         print(
             "\n[Summary]\nAverage Length: %.2f\nAverage Steps: %.2f\n"
             % (avg_len, avg_steps)
         )
-        with open("logs/benchmarks/" + name, "r") as f:
-            lines = f.readlines()
-        x_data = []
-        y1_data = []
-        y2_data = []
+        # with open("logs/benchmarks/" + name, "r") as f:
+        #     lines = f.readlines()
+        # x_data = []
+        # y1_data = []
+        # y2_data = []
 
-        for line in lines:
-            columns = line.strip().split(",")
-            x_data.append(int(columns[0]) + 1)
-            y1_data.append(int(columns[1]))
-            y2_data.append(int(columns[2]))
+        # for line in lines:
+        #     columns = line.strip().split(",")
+        #     x_data.append(int(columns[0]) + 1)
+        #     y1_data.append(int(columns[1]))
+        #     y2_data.append(int(columns[2]))
 
-        avg_y1 = numpy.mean(y1_data)
-        fig, ax1 = plt.subplots()
-        ax1.plot(x_data, y1_data, color=mcolors.to_rgb("#0958ad"), label="Length")
-        ax1.set_ylabel("Length", color=mcolors.to_rgb("#0958ad"))
-        ax1.tick_params("y", colors=mcolors.to_rgb("#0958ad"))
-        ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
-        ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
-        ax1.axhline(
-            y=avg_y1,
-            color=mcolors.to_rgb("#0958ad"),
-            linestyle="--",
-            label="Average Length",
-        )
-        ax2 = ax1.twinx()
-        ax2.plot(x_data, y2_data, color=mcolors.to_rgb("#a30707"), label="Steps")
-        ax2.set_ylabel("Steps", color=mcolors.to_rgb("#a30707"))
-        ax2.tick_params("y", colors=mcolors.to_rgb("#a30707"))
-        ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-        ax2.xaxis.set_major_locator(MaxNLocator(integer=True))
-        lines, labels = ax1.get_legend_handles_labels()
-        lines2, labels2 = ax2.get_legend_handles_labels()
-        ax2.legend(lines + lines2, labels + labels2, loc="best")
-        ax2.text(
-            0,
-            1.05,
-            f"Map size: {self._conf.map_rows}x{self._conf.map_rows}",
-            transform=ax1.transAxes,
-            ha="left",
-            va="top",
-        )
-        plt.title(f"Using {self._conf.solver_name}")
-        plt.xlabel("Number of runs")
-        fig.savefig(f"logs/figure/img_{name}.png")
-        """plt.show()"""
+        # avg_y1 = numpy.mean(y1_data)
+        # fig, ax1 = plt.subplots()
+        # ax1.plot(x_data, y1_data, color=mcolors.to_rgb("#0958ad"), label="Length")
+        # ax1.set_ylabel("Length", color=mcolors.to_rgb("#0958ad"))
+        # ax1.tick_params("y", colors=mcolors.to_rgb("#0958ad"))
+        # ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+        # ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+        # ax1.axhline(
+        #     y=avg_y1,
+        #     color=mcolors.to_rgb("#0958ad"),
+        #     linestyle="--",
+        #     label="Average Length",
+        # )
+        # ax2 = ax1.twinx()
+        # ax2.plot(x_data, y2_data, color=mcolors.to_rgb("#a30707"), label="Steps")
+        # ax2.set_ylabel("Steps", color=mcolors.to_rgb("#a30707"))
+        # ax2.tick_params("y", colors=mcolors.to_rgb("#a30707"))
+        # ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+        # ax2.xaxis.set_major_locator(MaxNLocator(integer=True))
+        # lines, labels = ax1.get_legend_handles_labels()
+        # lines2, labels2 = ax2.get_legend_handles_labels()
+        # ax2.legend(lines + lines2, labels + labels2, loc="best")
+        # ax2.text(
+        #     0,
+        #     1.05,
+        #     f"Map size: {self._conf.map_rows}x{self._conf.map_rows}",
+        #     transform=ax1.transAxes,
+        #     ha="left",
+        #     va="top",
+        # )
+        # plt.title(f"Using {self._conf.solver_name}")
+        # plt.xlabel("Number of runs")
+        # fig.savefig(f"logs/figure/img_{name}.png")
+        # """plt.show()"""
 
         self._on_exit()
 
