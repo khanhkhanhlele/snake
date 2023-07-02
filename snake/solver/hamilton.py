@@ -13,8 +13,7 @@ class _TableCell:
         self.reset()
 
     def __str__(self):
-        return "{ idx: %d  direc: %s }" % \
-               (self.idx, self.direc)
+        return "{ idx: %d  direc: %s }" % (self.idx, self.direc)
     __repr__ = __str__
 
     def reset(self):
