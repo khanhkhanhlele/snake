@@ -3,6 +3,7 @@ from snake.solver.base import BaseSolver
 from snake.solver.path import PathSolver
 from snake.base import Direc
 from numpy import sqrt
+from random import randint
 
 class astar(BaseSolver):
     def __init__(self, snake):
@@ -14,11 +15,16 @@ class astar(BaseSolver):
         closedset = []
         dir_array1 = []
         while 1:
+            if(len(openset)==0):
+                if (randint(1, 3) < 2):
+                    return Direc.RIGHT
+                else:
+                    return Direc.LEFT
             current1 = min(openset, key=lambda x: x.f)
             openset = [openset[i] for i in range(len(openset)) if not openset[i] == current1]
             closedset.append(current1)
             for neighbor in current1.all_adj():
-                if neighbor not in closedset and self.map.is_safe(neighbor):
+                if neighbor not in closedset and self.map.is_safe(neighbor) and neighbor not in self.snake._bodies:
                     tempg = neighbor.g + 1
                     if neighbor in openset:
                         if tempg < neighbor.g:
@@ -33,18 +39,12 @@ class astar(BaseSolver):
                 break
         while current1.camefrom:
             if current1.x == current1.camefrom.x and current1.y < current1.camefrom.y:
-                dir_array1.append(Direc.UP)
-            elif current1.x == current1.camefrom.x and current1.y > current1.camefrom.y:
-                dir_array1.append(Direc.DOWN)
-            elif current1.x < current1.camefrom.x and current1.y == current1.camefrom.y:
                 dir_array1.append(Direc.LEFT)
-            elif current1.x > current1.camefrom.x and current1.y == current1.camefrom.y:
+            elif current1.x == current1.camefrom.x and current1.y > current1.camefrom.y:
                 dir_array1.append(Direc.RIGHT)
+            elif current1.x < current1.camefrom.x and current1.y == current1.camefrom.y:
+                dir_array1.append(Direc.UP)
+            elif current1.x > current1.camefrom.x and current1.y == current1.camefrom.y:
+                dir_array1.append(Direc.DOWN)
             current1 = current1.camefrom
-        #print(dir_array1)
-        for i in range(self.map.num_rows):
-            for j in range(self.map.num_cols):
-                print((Pos(i,j).f, Pos(i,j).g, Pos(i,j).h,Pos(i,j).x))
-
-                Pos(i,j).reset()
         return dir_array1[-1]

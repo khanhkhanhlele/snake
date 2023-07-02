@@ -11,8 +11,8 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-cols = 25
-rows = 25
+cols = 8
+rows = 8
 
 width = 600
 height = 600
@@ -32,7 +32,7 @@ def getpath(food1, snake1):
     openset = [snake1[-1]]
     closedset = []
     dir_array1 = []
-    print(openset)
+    #print(openset)
     while 1:
         current1 = min(openset, key=lambda x: x.f)
         openset = [openset[i] for i in range(len(openset)) if not openset[i] == current1]
@@ -81,8 +81,8 @@ class Spot:
         self.neighbors = []
         self.camefrom = [] #parent
         self.obstrucle = False
-        if randint(1, 101) < 3:
-            self.obstrucle = True
+        # if randint(1, 101) < 3:
+        #     self.obstrucle = True
 
     def show(self, color):
         draw.rect(screen, color, [self.x*hr+2, self.y*wr+2, hr-4, wr-4])
@@ -110,7 +110,7 @@ current = snake[-1]
 dir_array = getpath(food, snake)
 food_array = [food]
 while not done:
-    clock.tick(120)
+    clock.tick(10)
     screen.fill(BLACK)
     direction = dir_array.pop(-1)
     if direction == 0:    # down
