@@ -20,6 +20,12 @@ class Pos:
         self.f = 0
         self.g = 0
         self.h = 0
+        self.camefrom = []
+    def reset(self):
+        self.f = 0
+        self.g = 0
+        self.h = 0
+        self.camefrom = []
 
     def __str__(self):
         return 'Pos(%d,%d)' % (self._x, self._y)
@@ -105,3 +111,27 @@ class Pos:
     @y.setter
     def y(self, val):
         self._y = val
+
+    # @property
+    # def f(self):
+    #     return self._f
+
+    # @f.setter
+    # def f(self, val):
+    #     self._f = val
+
+    # @property
+    # def g(self):
+    #     return self._g
+
+    # @g.setter
+    # def g(self, val):
+    #     self._g= val
+
+    # @property
+    # def h(self):
+    #     return self._h
+
+    # @h.setter
+    # def h(self, val):
+    #     self._h= val

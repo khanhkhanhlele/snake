@@ -64,6 +64,9 @@ class GameConf:
         self.init_bodies = [Pos(1, 4), Pos(1, 3), Pos(1, 2), Pos(1, 1)]
         self.init_types = [PointType.HEAD_R] + [PointType.BODY_HOR] * 3
 
+        # Initial wall
+        self.wall = 0
+        
         # Font
         self.font_info = ('Arial', 9)
 
@@ -96,6 +99,21 @@ class Game:
         if(self._conf.solver_name == "Userplayer"):
             self._pause = True
 
+        if(self._conf.wall == 1):
+            self.add_wall1()
+
+    def add_wall1(self):
+        wall1 = ((Pos(2, 2), PointType.WALL),
+            (Pos(2, 3), PointType.WALL),
+            (Pos(3, 3), PointType.WALL),
+            (Pos(7, 3), PointType.WALL),
+            (Pos(7, 5), PointType.WALL),
+            (Pos(7, 4), PointType.WALL),
+            (Pos(5, 7), PointType.WALL))
+
+        for content in wall1:
+            self._map.point(content[0]).type = content[1]
+        return
     @property
     def snake(self):
         return self._snake

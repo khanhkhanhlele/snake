@@ -32,6 +32,7 @@ def getpath(food1, snake1):
     openset = [snake1[-1]]
     closedset = []
     dir_array1 = []
+    print(openset)
     while 1:
         current1 = min(openset, key=lambda x: x.f)
         openset = [openset[i] for i in range(len(openset)) if not openset[i] == current1]
@@ -108,10 +109,8 @@ food = grid[randint(0, rows-1)][randint(0, cols-1)]
 current = snake[-1]
 dir_array = getpath(food, snake)
 food_array = [food]
-print(food)
-print(snake)
 while not done:
-    clock.tick(1)
+    clock.tick(120)
     screen.fill(BLACK)
     direction = dir_array.pop(-1)
     if direction == 0:    # down
