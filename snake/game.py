@@ -209,7 +209,7 @@ class Game:
         full = FULL / NUM_EPISODES
         dead = DEAD / NUM_EPISODES
         step_limit = STEP_LIMIT / NUM_EPISODES
-        print(f"\n[Summary]\nAverage Length: {avg_len:.2f}\nAverage Steps:{avg_steps:.2f}\nFULL: {full:.2f} %\nDEAD:{dead:.2f} %\nSTEP LIMIT:{step_limit:.2f} %\n")
+        print(f"\n[Summary]\nAverage Length: {avg_len:.2f}\nAverage Steps: {avg_steps:.2f}\nFULL: {full:.2f} %\nDEAD: {dead:.2f}%\nSTEP LIMIT: {step_limit:.2f}%\n")
         # with open("logs/benchmarks/" + name, "r") as f:
         #     lines = f.readlines()
         # x_data = []
