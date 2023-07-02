@@ -13,7 +13,8 @@ dict_solver = {
     "human": "Userplayer",
     "BFS": "BFS",
     "hamiltonBase": "hamiltonBase",
-    "DFS": "DFS"
+    "DFS": "DFS",
+    "astar": "astar"
 }
 
 dict_mode = {
