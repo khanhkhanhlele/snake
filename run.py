@@ -11,7 +11,9 @@ dict_solver = {
     "hamilton": "HamiltonSolver",
     "dqn": "DQNSolver",
     "human": "Userplayer",
-    "BFS": "BFS"
+    "BFS": "BFS",
+    "hamiltonBase": "hamiltonBase",
+    "DFS": "DFS"
 }
 
 dict_mode = {
@@ -27,11 +29,14 @@ parser.add_argument("-s", default="hamilton", choices=dict_solver.keys(),
                     help="name of the solver to direct the snake (default: hamilton)")
 parser.add_argument("-m", default="normal", choices=dict_mode.keys(),
                     help="game mode (default: normal)")
+parser.add_argument('-map', type=str, default=8,
+                    help="map size (default: 8x8)")
 args = parser.parse_args()
 
 conf = GameConf()
 conf.solver_name = dict_solver[args.s]
 conf.mode = dict_mode[args.m]
-print("Solver: %s    Mode: %s" % (conf.solver_name, conf.mode))
+conf.map_rows = conf.map_cols = int(args.map)
+print("Solver: %s    Mode: %s   Map Size: %sx%s" % (conf.solver_name, conf.mode, conf.map_rows, conf.map_cols))
 
 Game(conf).run()

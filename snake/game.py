@@ -13,7 +13,7 @@ import matplotlib.colors as mcolors
 
 from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
-from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS
+from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS
 
 
 @unique
@@ -72,12 +72,13 @@ class GameConf:
         # Info
         self.info_str = (
             "<w/a/s/d>: snake direction\n"
+            "<u/l/d/r>: snake direction\n"
             "<space>: pause/resume\n"
             "<r>: restart    <esc>: exit\n"
             "-----------------------------------\n"
             "status: %s\n"
             "episode: %d   step: %d\n"
-            "length: %d/%d (" + str(self.map_rows) + "x" + str(self.map_cols) + ")\n"
+            "length: %d/%d (%dx%d)\n"
             "-----------------------------------"
         )
         self.info_status = ["eating", "dead", "full"]
