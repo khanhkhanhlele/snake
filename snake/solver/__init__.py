@@ -12,3 +12,4 @@ from snake.solver.BFS import BFS
 from snake.solver.DFS import DFS
 from snake.solver.astar import astar
 from snake.solver.hamiltonBase import hamiltonBase
+from snake.solver.astarcheck import astarcheck

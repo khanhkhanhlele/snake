@@ -14,7 +14,8 @@ dict_solver = {
     "BFS": "BFS",
     "hamiltonBase": "hamiltonBase",
     "DFS": "DFS",
-    "astar": "astar"
+    "astar": "astar",
+    "astarcheck":"astarcheck"
 }
 
 dict_mode = {

@@ -20,7 +20,6 @@ class GreedySolver(BaseSolver):
         # Step 1
         self._path_solver.snake = self.snake
         path_to_food = self._path_solver.shortest_path_to_food()
-
         if path_to_food:
             # Step 2
             s_copy.move_path(path_to_food)

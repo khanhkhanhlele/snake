@@ -14,7 +14,7 @@ import numpy
 
 from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
-from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS, astar
+from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS, astar, astarcheck
 from snake.wall import wall1, wall2, wall3
 import os
 
@@ -157,13 +157,14 @@ class Game:
         NUM_EPISODES = int(input("Please input the number of episodes: "))
 
         print("\nMap size: %dx%d" % (self._conf.map_rows, self._conf.map_cols))
-        print("Solver: %s\n" % self._conf.solver_name[:-6].lower())
+        print("Solver: %s\n" % self._conf.solver_name[:].lower())
 
         tot_len, tot_steps = 0, 0
-        now = datetime.datetime.now()
-        name = now.strftime(
-            f"bcmk_{self._conf.solver_name}_{self._conf.map_rows}_%d-%m-%y-%H-%M-%S.txt"
-        )
+        STEP_LIMIT, FULL, DEAD = 0, 0, 0
+        # now = datetime.datetime.now()
+        # name = now.strftime(
+        #     f"bcmk_{self._conf.solver_name}_{self._conf.map_rows}_%d-%m-%y-%H-%M-%S.txt"
+        # )
         # file_name = r'logs/benchmarks/' + name
         # print(file_name)
         # os.makedirs(file_name, exist_ok=True)
@@ -177,12 +178,14 @@ class Game:
                         "FULL (len: %d | steps: %d)"
                         % (self._snake.len(), self._snake.steps)
                     )
+                    FULL += 1
                     break
                 elif self._snake.dead:
                     print(
                         "DEAD (len: %d | steps: %d)"
                         % (self._snake.len(), self._snake.steps)
                     )
+                    DEAD += 1
                     break
                 elif self._snake.steps >= STEPS_LIMIT:
                     print(
@@ -190,6 +193,8 @@ class Game:
                         % (self._snake.len(), self._snake.steps)
                     )
                     self._write_logs()  # Write the last step
+                    STEP_LIMIT += 1 
+                    tot_steps -= self._snake.steps
                     break
             # with open(file_name, 'w', encoding='utf-8') as f:
             #     f.write(f"{i},{self._snake.len()},{self._snake.steps}\n")
@@ -200,11 +205,11 @@ class Game:
 
             self._reset()
         avg_len = tot_len / NUM_EPISODES
-        avg_steps = tot_steps / NUM_EPISODES
-        print(
-            "\n[Summary]\nAverage Length: %.2f\nAverage Steps: %.2f\n"
-            % (avg_len, avg_steps)
-        )
+        avg_steps = tot_steps / (NUM_EPISODES - STEP_LIMIT)
+        full = FULL / NUM_EPISODES
+        dead = DEAD / NUM_EPISODES
+        step_limit = STEP_LIMIT / NUM_EPISODES
+        print(f"\n[Summary]\nAverage Length: {avg_len:.2f}\nAverage Steps:{avg_steps:.2f}\nFULL: {full:.2f} %\nDEAD:{dead:.2f} %\nSTEP LIMIT:{step_limit:.2f} %\n")
         # with open("logs/benchmarks/" + name, "r") as f:
         #     lines = f.readlines()
         # x_data = []
