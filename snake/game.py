@@ -15,8 +15,9 @@ import numpy
 from snake.base import Direc, Map, PointType, Pos, Snake
 from snake.gui import GameWindow
 from snake.solver import DQNSolver, GreedySolver, HamiltonSolver, Userplayer, BFS, hamiltonBase, DFS, astar
+from snake.wall import wall1, wall2, wall3
 
-
+wall = [wall1, wall2, wall3]
 @unique
 class GameMode(Enum):
     NORMAL = 0  # AI with GUI
@@ -57,7 +58,7 @@ class GameConf:
         self.color_bg = "#000000"
         self.color_txt = "#F5F5F5"
         self.color_line = "#424242"
-        self.color_wall = "#F5F5F5"
+        self.color_wall = "green"
         self.color_food = "#FFF59D"
         self.color_head = "red"
         self.color_body = "#F5F5F5"
@@ -93,8 +94,8 @@ class Game:
         self._conf = conf
         self._map = Map(conf.map_rows + 2, conf.map_cols + 2)
         # self._map.point(Pos(1, 6)).type = PointType.WALL
-        if(self._conf.wall == 1):
-            self.add_wall1()
+        if(self._conf.wall != 0):
+            self.add_wall(wall[self._conf.wall-1])
         self._snake = Snake(
             self._map, conf.init_direc, conf.init_bodies, conf.init_types
         )
@@ -105,18 +106,11 @@ class Game:
         if self._conf.solver_name == "Userplayer":
             self._pause = True
 
-    def add_wall1(self):
-        wall1 = ((Pos(2, 2), PointType.WALL),
-            (Pos(2, 3), PointType.WALL),
-            (Pos(3, 3), PointType.WALL),
-            (Pos(7, 3), PointType.WALL),
-            (Pos(7, 5), PointType.WALL),
-            (Pos(7, 4), PointType.WALL),
-            (Pos(5, 7), PointType.WALL))
-
-        for content in wall1:
+    def add_wall(self, wall):
+        for content in wall:
             self._map.point(content[0]).type = content[1]
         return
+
     @property
     def snake(self):
         return self._snake

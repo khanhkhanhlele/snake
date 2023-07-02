@@ -40,7 +40,16 @@ conf = GameConf()
 conf.solver_name = dict_solver[args.s]
 conf.mode = dict_mode[args.m]
 conf.map_rows = conf.map_cols = args.map
-conf.wall = args.wall
+if(args.wall == 1):
+    conf.wall = args.wall
+    conf.map_rows = conf.map_cols = 8
+elif(args.wall == 2):
+    conf.wall = args.wall
+    conf.map_rows = conf.map_cols = 10
+elif(args.wall == 3):
+    conf.wall = args.wall
+    conf.map_rows = conf.map_cols = 16
+
 print("Solver: %s    Mode: %s   Map Size: %sx%s" % (conf.solver_name, conf.mode, conf.map_rows, conf.map_cols))
 
 Game(conf).run()
