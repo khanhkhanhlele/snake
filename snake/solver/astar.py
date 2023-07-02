@@ -6,6 +6,7 @@ from snake.base.pos import Pos
 from snake.solver.base import BaseSolver
 from snake.solver.path import PathSolver
 from numpy import sqrt
+from snake.base import Direc
 
 class astar(BaseSolver):
 
@@ -14,4 +15,4 @@ class astar(BaseSolver):
         self._path_solver = PathSolver(snake)
 
     def next_direc(self):
-        
+        return Direc.RIGHT
