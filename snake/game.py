@@ -130,7 +130,7 @@ class Game:
                 self._plot_history()
 
     def _run_benchmarks(self):
-        STEPS_LIMIT = 500000
+        STEPS_LIMIT = 15000
         NUM_EPISODES = int(input("Please input the number of episodes: "))
 
         print("\nMap size: %dx%d" % (self._conf.map_rows, self._conf.map_cols))

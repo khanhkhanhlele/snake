@@ -17,6 +17,9 @@ class Pos:
     def __init__(self, x=0, y=0):
         self._x = x
         self._y = y
+        self.f = 0
+        self.g = 0
+        self.h = 0
 
     def __str__(self):
         return 'Pos(%d,%d)' % (self._x, self._y)
