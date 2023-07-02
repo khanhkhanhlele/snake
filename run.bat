@@ -1,0 +1,15 @@
+py run.py -map 10 -s greedy -m bcmk
+py run.py -map 10 -s hamilton -m bcmk
+py run.py -map 10 -s BFS -m bcmk
+py run.py -map 10 -s hamiltonBase -m bcmk
+py run.py -map 10 -s DFS -m bcmk
+py run.py -map 15 -s greedy -m bcmk
+py run.py -map 15 -s hamilton -m bcmk
+py run.py -map 15 -s BFS -m bcmk
+py run.py -map 15 -s hamiltonBase -m bcmk
+py run.py -map 15 -s DFS -m bcmk
+py run.py -map 20 -s greedy -m bcmk
+py run.py -map 20 -s hamilton -m bcmk
+py run.py -map 20 -s BFS -m bcmk
+py run.py -map 20 -s hamiltonBase -m bcmk
+py run.py -map 20 -s DFS -m bcmk
