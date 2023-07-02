@@ -93,6 +93,8 @@ class Game:
         self._conf = conf
         self._map = Map(conf.map_rows + 2, conf.map_cols + 2)
         # self._map.point(Pos(1, 6)).type = PointType.WALL
+        if(self._conf.wall == 1):
+            self.add_wall1()
         self._snake = Snake(
             self._map, conf.init_direc, conf.init_bodies, conf.init_types
         )
@@ -102,9 +104,6 @@ class Game:
         self._init_log_file()
         if self._conf.solver_name == "Userplayer":
             self._pause = True
-
-        if(self._conf.wall == 1):
-            self.add_wall1()
 
     def add_wall1(self):
         wall1 = ((Pos(2, 2), PointType.WALL),

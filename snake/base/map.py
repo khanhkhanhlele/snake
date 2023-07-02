@@ -33,6 +33,8 @@ class Map:
                 if i == 0 or i == self._num_rows - 1 or \
                    j == 0 or j == self._num_cols - 1:
                     self._content[i][j].type = PointType.WALL
+                elif self._content[i][j].type == PointType.WALL:
+                    None
                 else:
                     self._content[i][j].type = PointType.EMPTY
 
