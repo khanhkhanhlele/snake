@@ -206,9 +206,9 @@ class Game:
             self._reset()
         avg_len = tot_len / NUM_EPISODES
         avg_steps = tot_steps / (NUM_EPISODES - STEP_LIMIT)
-        full = FULL / NUM_EPISODES
-        dead = DEAD / NUM_EPISODES
-        step_limit = STEP_LIMIT / NUM_EPISODES
+        full = FULL / NUM_EPISODES * 100
+        dead = DEAD / NUM_EPISODES *100
+        step_limit = STEP_LIMIT / NUM_EPISODES *100
         print(f"\n[Summary]\nAverage Length: {avg_len:.2f}\nAverage Steps: {avg_steps:.2f}\nFULL: {full:.2f} %\nDEAD: {dead:.2f}%\nSTEP LIMIT: {step_limit:.2f}%\n")
         # with open("logs/benchmarks/" + name, "r") as f:
         #     lines = f.readlines()
