@@ -72,6 +72,7 @@ class GameConf:
         # Initial wall
         self.wall = 0
         
+        
         # Font
         self.font_info = ("Arial", 9)
 
@@ -154,6 +155,7 @@ class Game:
 
     def _run_benchmarks(self):
         STEPS_LIMIT = 15000
+        TIME_OUT = 200
         NUM_EPISODES = int(input("Please input the number of episodes: "))
 
         print("\nMap size: %dx%d" % (self._conf.map_rows, self._conf.map_cols))
@@ -180,6 +182,14 @@ class Game:
                     )
                     FULL += 1
                     break
+                elif self._snake.time_out >= TIME_OUT:
+                    print(
+                        "STARVE (len: %d | steps: %d)"
+                        % (self._snake.len(), self._snake.steps)
+                    )
+                    DEAD += 1
+                    break
+                    
                 elif self._snake.dead:
                     print(
                         "DEAD (len: %d | steps: %d)"

@@ -57,6 +57,7 @@ class Snake:
                 self._init_types.append(PointType.BODY_VER)
 
         self._steps = 0
+        self._time_out = 0
         self._dead = False
         self._direc = self._init_direc
         self._direc_next = Direc.NONE
@@ -74,6 +75,7 @@ class Snake:
         m_copy = self._map.copy()
         s_copy = Snake(m_copy, Direc.NONE, [], [])
         s_copy._steps = self._steps
+        s_copy._time_out = self._time_out
         s_copy._dead = self._dead
         s_copy._direc = self._direc
         s_copy._direc_next = self._direc_next
@@ -87,6 +89,10 @@ class Snake:
     @property
     def steps(self):
         return self._steps
+    
+    @property
+    def time_out(self):
+        return self._time_out
 
     @property
     def dead(self):
@@ -148,12 +154,14 @@ class Snake:
             self._dead = True
         if self._map.point(new_head).type == PointType.FOOD:
             self._map.rm_food()
+            self._time_out = 0
         else:
             self._rm_tail()
 
         self._map.point(new_head).type = new_head_type
         self._direc = self._direc_next
         self._steps += 1
+        self._time_out += 1
 
     def _rm_tail(self):
         self._map.point(self.tail()).type = PointType.EMPTY
